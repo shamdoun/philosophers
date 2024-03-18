@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:54:09 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 06:26:58 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 22:02:36 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	philo_eats(t_philosopher *p)
 
 static void	*special_case(t_philosopher *p)
 {
-	if (!execute_1(p, "%ld %d has taken a fork\n", 2))
+	if (!execute_1(p, "%ld %d has taken a fork\n", 1))
 		return (NULL);
 	usleep(p->s->time_to_die * 1000);
 	return (NULL);
@@ -79,7 +79,7 @@ void	*routines(void *data)
 
 	p = (t_philosopher *)data;
 	if (p->id % 2 == 0)
-		usleep(15000);
+		usleep(p->s->time_to_die / 2 * 1000);
 	if (p->s->nbr_philosophers == 1)
 		return (special_case(p));
 	while (!simulation_must_stop(p->s))

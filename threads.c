@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:08:27 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 06:38:07 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 22:21:20 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	execute_2(t_philosopher *p, char *m, int mode)
 {
 	if (mode == 3)
 	{
-		display_message(m, p->s, gettime() - p->s->start_time, p->id);
 		pthread_mutex_unlock(&p->s->must_stop_lock);
+		display_message(m, p->s, gettime() - p->s->start_time, p->id);
 		usleep(p->s->time_to_sleep * 1000);
 	}
 	else if (mode == 4)
@@ -66,16 +66,14 @@ static void	execute_2(t_philosopher *p, char *m, int mode)
 	}
 	else if (mode == 5)
 	{
-		if (p->s->max_num_meals > 0)
-		{
 			update_last_meal_time(p);
-			pthread_mutex_unlock(&p->s->must_stop_lock);
 			display_message(m, p->s, gettime() - p->s->start_time, p->id);
-			update_meal_count(p);
 			usleep(p->s->time_to_eat * 1000);
-		}
-		else
-			pthread_mutex_unlock(&p->s->must_stop_lock);
+			update_meal_count(p);
+			// execute_2(p, "%ld %d is sleeping\n", 3);
+		// }
+		// else
+		// 	pthread_mutex_unlock(&p->s->must_stop_lock);
 	}
 }
 
@@ -92,6 +90,7 @@ int	execute_1(t_philosopher *p, char *m, int mode)
 		}
 		else if (mode == 2)
 		{
+			pthread_mutex_unlock(&p->s->must_stop_lock);
 			pthread_mutex_lock(&p->right_fork);
 			display_message(m, p->s, gettime() - p->s->start_time, p->id);
 			if (!p->s->max_num_meals)
