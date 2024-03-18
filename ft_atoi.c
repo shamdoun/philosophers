@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:31:38 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 00:48:58 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 02:45:35 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_atoi(const char *str)
 	}
 	if (*s != '\0')
 		exit(1);
-    if (sign < 0)
-        exit(1);
+	if (sign < 0)
+		exit(1);
 	return ((int)result * sign);
 }
