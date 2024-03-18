@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:08:27 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 06:21:44 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:38:07 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,10 @@ int	execute_1(t_philosopher *p, char *m, int mode)
 		{
 			pthread_mutex_lock(&p->right_fork);
 			display_message(m, p->s, gettime() - p->s->start_time, p->id);
-			execute_2(p, "%ld %d is eating\n", 5);
+			if (!p->s->max_num_meals)
+				usleep(p->s->time_to_die * 1000);
+			else
+				execute_2(p, "%ld %d is eating\n", 5);
 		}
 		else
 			execute_2(p, m, mode);
