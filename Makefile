@@ -7,10 +7,10 @@ NAME = philosophers
 %.o:%.c philosopher.h
 	cc ${CFLAGS} $< -o $@
 
-all: ${Target}
+all: ${NAME}
 
 ${NAME}: ${Objs}
-	cc ${CFLAGS} -g ${Objs} -o ${Target} 
+	cc ${CFLAGS} -g ${Objs} -o ${NAME} 
 
 clean:
 	rm ${Objs}

@@ -57,11 +57,11 @@ static void execute_2(t_philosopher *p, char *m, int mode)
         {
             update_last_meal_time(p);
             display_message(m, p->s, gettime(p->s) - p->s->start_time, p->id);
-            pthread_mutex_unlock(&p->s->must_stop_lock);
             pthread_mutex_lock(&p->s->meal_lock);
             p->num_meals++;
             pthread_mutex_unlock(&p->s->meal_lock);
             usleep(p->s->time_to_eat * 1000);
+            pthread_mutex_unlock(&p->s->must_stop_lock);
         }
         else
             pthread_mutex_unlock(&p->s->must_stop_lock);
