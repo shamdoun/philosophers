@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:08:27 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 22:21:20 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 23:10:16 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,6 @@ static void	execute_2(t_philosopher *p, char *m, int mode)
 			display_message(m, p->s, gettime() - p->s->start_time, p->id);
 			usleep(p->s->time_to_eat * 1000);
 			update_meal_count(p);
-			// execute_2(p, "%ld %d is sleeping\n", 3);
-		// }
-		// else
-		// 	pthread_mutex_unlock(&p->s->must_stop_lock);
 	}
 }
 

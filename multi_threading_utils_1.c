@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:51:00 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 07:01:29 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 23:29:43 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,34 @@ void	alert_all_to_stop(t_session *s, int i)
 		exit(1);
 }
 
+int all_ate(size_t sum[], int nbr, size_t max)
+{
+	int i;
+
+	i = 0;
+	while (i < nbr)
+	{
+		if (sum[i] < max)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	check_number_of_meals(t_session *s)
 {
-	size_t	sum;
+	size_t	sum[s->nbr_philosophers];
 	int		i;
 
 	i = 0;
-	sum = 0;
 	if (pthread_mutex_lock(&s->meal_lock))
 		exit(1);
 	while (s->max_num_meals && i < s->nbr_philosophers)
 	{
-		sum += s->all_philosophers[i].num_meals;
+		sum[i] = s->all_philosophers[i].num_meals;
 		i++;
 	}
-	if (s->max_num_meals && sum == s->max_num_meals * s->nbr_philosophers)
+	if (s->max_num_meals && all_ate(sum, s->nbr_philosophers, s->max_num_meals))
 	{
 		s->must_stop = 1;
 		if (pthread_mutex_unlock(&s->meal_lock))
