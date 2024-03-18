@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:54:09 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 04:28:21 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:26:58 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,6 @@ static int	philo_eats(t_philosopher *p)
 	if (!execute_1(p, "%ld %d has taken a fork\n", 2))
 	{
 		pthread_mutex_unlock(p->left_fork);
-		return (1);
-	}
-	if (!execute_1(p, "%ld %d is eating\n", 5))
-	{
-		pthread_mutex_unlock(p->left_fork);
-		pthread_mutex_unlock(&p->right_fork);
 		return (1);
 	}
 	pthread_mutex_unlock(p->left_fork);
@@ -65,16 +59,12 @@ void	*monitor_routine(void *data)
 	while (1)
 	{
 		i = 0;
-		time = gettime(s);
+		time = gettime();
 		while (i < s->nbr_philosophers)
 		{
-			attempt_to_lock_unlock(&s->last_time_lock, 0);
-			if (time - s->all_philosophers[i].last_meal_time >= s->time_to_die)
-			{
-				alert_all_to_stop(s, i);
+			if (time - s->all_philosophers[i].last_meal_time >= s->time_to_die
+				&& check_if_philo_started_eating(s, i))
 				break ;
-			}
-			attempt_to_lock_unlock(&s->last_time_lock, 1);
 			i++;
 		}
 		if (i != s->nbr_philosophers || check_number_of_meals(s))

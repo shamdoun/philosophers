@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:53:32 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 04:27:40 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:05:51 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,15 @@ void	update_meal_count(t_philosopher *p)
 	pthread_mutex_lock(&p->s->meal_lock);
 	p->num_meals++;
 	pthread_mutex_unlock(&p->s->meal_lock);
+}
+
+int	check_if_philo_started_eating(t_session *s, int i)
+{
+	if (gettime() - s->all_philosophers[i].last_meal_time
+		>= s->time_to_die)
+	{
+		alert_all_to_stop(s, i);
+		return (1);
+	}
+	return (0);
 }

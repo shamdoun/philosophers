@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:44:17 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 04:28:03 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:33:07 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	join_all_threads(info, monitor);
+	free(info.all_philosophers);
 	return (0);
 }

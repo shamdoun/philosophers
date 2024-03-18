@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:51:00 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 04:27:40 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:25:00 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,15 @@
 
 void	alert_all_to_stop(t_session *s, int i)
 {
-	if (pthread_mutex_unlock(&s->last_time_lock))
-		exit(1);
-	if (pthread_mutex_lock(&s->must_stop_lock))
-		exit(1);
 	s->must_stop = 1;
 	if (pthread_mutex_unlock(&s->must_stop_lock))
 		exit(1);
 	if (pthread_mutex_lock(&s->display))
 		exit(1);
-	printf("%ld %d died\n", gettime(s) - s->start_time,
+	printf("%ld %d died\n", gettime() - s->start_time,
 		s->all_philosophers[i].id);
 	if (pthread_mutex_unlock(&s->display))
 		exit(1);
-	free(s->all_philosophers);
 }
 
 int	check_number_of_meals(t_session *s)
@@ -71,6 +66,6 @@ int	simulation_must_stop(t_session *s)
 void	update_last_meal_time(t_philosopher *p)
 {
 	pthread_mutex_lock(&p->s->last_time_lock);
-	p->last_meal_time = gettime(p->s);
+	p->last_meal_time = gettime();
 	pthread_mutex_unlock(&p->s->last_time_lock);
 }

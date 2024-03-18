@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:16:44 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 04:28:54 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/03/18 06:05:12 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,5 @@ int		simulation_must_stop(t_session *s);
 void	update_last_meal_time(t_philosopher *p);
 void	display_message(char *message, t_session *s, long value, int id);
 void	update_meal_count(t_philosopher *p);
+int		check_if_philo_started_eating(t_session *s, int i);
 #endif
