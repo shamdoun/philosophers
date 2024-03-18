@@ -35,20 +35,6 @@ int check_number_of_meals(session *s)
     return (0);
 }
 
-int limit_reached(t_philosopher *p)
-{
-    pthread_mutex_lock(&p->s->must_stop_lock);
-    if (p->s->max_num_meals && p->num_meals >= p->s->max_num_meals)
-    { 
-        pthread_mutex_lock(&p->s->must_stop_lock);
-        p->s->must_stop = 1;
-        pthread_mutex_unlock(&p->s->must_stop_lock);
-        return (1);
-    }
-    pthread_mutex_unlock(&p->s->must_stop_lock);
-    return (0);
-}
-
 int simulation_must_stop(session *s)
 {
     pthread_mutex_lock(&s->must_stop_lock);
