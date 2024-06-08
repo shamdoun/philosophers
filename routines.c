@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:54:09 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 23:13:50 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/06/08 20:46:26 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	*routines(void *data)
 
 	p = (t_philosopher *)data;
 	if (p->id % 2 == 0)
-		usleep(p->s->time_to_die / 2 * 1000);
+		usleep(1 * 1000);
 	if (p->s->nbr_philosophers == 1)
 		return (special_case(p));
 	while (!simulation_must_stop(p->s))

@@ -10,7 +10,7 @@ NAME = philosophers
 all: ${NAME}
 
 ${NAME}: ${Objs}
-	cc ${CFLAGS} -g ${Objs} -o ${NAME} 
+	cc ${CFLAGS} -fsanitize=thread -g ${Objs} -o ${NAME} 
 
 clean:
 	rm ${Objs}

@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:08:27 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 23:10:16 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/06/08 21:00:14 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,19 @@ static void	execute_2(t_philosopher *p, char *m, int mode)
 	}
 	else if (mode == 5)
 	{
-			update_last_meal_time(p);
-			display_message(m, p->s, gettime() - p->s->start_time, p->id);
-			usleep(p->s->time_to_eat * 1000);
-			update_meal_count(p);
+		display_message(m, p->s, gettime() - p->s->start_time, p->id);
+		update_last_meal_time(p);
+		update_meal_count(p);
+		usleep(p->s->time_to_eat * 1000);
 	}
+}
+
+void	execute_eating_routine(t_philosopher *p)
+{
+	if (!p->s->max_num_meals)
+		usleep(p->s->time_to_die * 1000);
+	else
+		execute_2(p, "%ld %d is eating\n", 5);
 }
 
 int	execute_1(t_philosopher *p, char *m, int mode)
@@ -89,10 +97,7 @@ int	execute_1(t_philosopher *p, char *m, int mode)
 			pthread_mutex_unlock(&p->s->must_stop_lock);
 			pthread_mutex_lock(&p->right_fork);
 			display_message(m, p->s, gettime() - p->s->start_time, p->id);
-			if (!p->s->max_num_meals)
-				usleep(p->s->time_to_die * 1000);
-			else
-				execute_2(p, "%ld %d is eating\n", 5);
+			execute_eating_routine(p);
 		}
 		else
 			execute_2(p, m, mode);
