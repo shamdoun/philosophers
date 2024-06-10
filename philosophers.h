@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:16:44 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 06:05:12 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:53:54 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
-# include <libc.h>
+# include <limits.h>
 
 typedef struct cycle
 {
