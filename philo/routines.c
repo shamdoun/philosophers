@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:54:09 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/06/08 20:46:26 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:58:48 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,8 @@ static void	*special_case(t_philosopher *p)
 {
 	if (!execute_1(p, "%ld %d has taken a fork\n", 1))
 		return (NULL);
-	usleep(p->s->time_to_die * 1000);
+	my_usleep(p->s->time_to_die, p->s);
 	return (NULL);
-}
-
-void	attempt_to_lock_unlock(pthread_mutex_t *m, int mode)
-{
-	if (!mode)
-	{
-		if (pthread_mutex_lock(m))
-			exit(1);
-	}
-	else
-	{
-		if (pthread_mutex_unlock(m))
-			exit(1);
-	}
 }
 
 void	*monitor_routine(void *data)
@@ -54,7 +40,6 @@ void	*monitor_routine(void *data)
 	t_session	*s;
 	size_t		time;
 
-	i = 0;
 	s = (t_session *)data;
 	while (1)
 	{
@@ -62,9 +47,14 @@ void	*monitor_routine(void *data)
 		time = gettime();
 		while (i < s->nbr_philosophers)
 		{
+			pthread_mutex_lock(&s->last_time_lock);
 			if (time - s->all_philosophers[i].last_meal_time >= s->time_to_die
 				&& check_if_philo_started_eating(s, i))
+			{
+				pthread_mutex_unlock(&s->last_time_lock);
 				break ;
+			}
+			pthread_mutex_unlock(&s->last_time_lock);
 			i++;
 		}
 		if (i != s->nbr_philosophers || check_number_of_meals(s))
@@ -79,7 +69,7 @@ void	*routines(void *data)
 
 	p = (t_philosopher *)data;
 	if (p->id % 2 == 0)
-		usleep(1 * 1000);
+		my_usleep(1, p->s);
 	if (p->s->nbr_philosophers == 1)
 		return (special_case(p));
 	while (!simulation_must_stop(p->s))

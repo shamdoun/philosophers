@@ -6,13 +6,13 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:08:27 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/06/08 21:00:14 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:59:13 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	create_philo_threads(t_session info)
+int	create_philo_threads(t_session info)
 {
 	int	i;
 
@@ -24,13 +24,14 @@ void	create_philo_threads(t_session info)
 				&routines, &info.all_philosophers[i]) == -1)
 		{
 			free(info.all_philosophers);
-			exit(1);
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }
 
-void	join_all_threads(t_session info, t_philosopher monitor)
+int	join_all_threads(t_session info, t_philosopher monitor)
 {
 	int	i;
 
@@ -38,17 +39,18 @@ void	join_all_threads(t_session info, t_philosopher monitor)
 	if (pthread_join(monitor.thread, NULL))
 	{
 		free(info.all_philosophers);
-		exit(1);
+		return (1);
 	}
 	while (i < info.nbr_philosophers)
 	{
 		if (pthread_join(info.all_philosophers[i].thread, NULL))
 		{
 			free(info.all_philosophers);
-			exit(1);
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }
 
 static void	execute_2(t_philosopher *p, char *m, int mode)
@@ -57,7 +59,7 @@ static void	execute_2(t_philosopher *p, char *m, int mode)
 	{
 		pthread_mutex_unlock(&p->s->must_stop_lock);
 		display_message(m, p->s, gettime() - p->s->start_time, p->id);
-		usleep(p->s->time_to_sleep * 1000);
+		my_usleep(p->s->time_to_sleep, p->s);
 	}
 	else if (mode == 4)
 	{
@@ -69,14 +71,14 @@ static void	execute_2(t_philosopher *p, char *m, int mode)
 		display_message(m, p->s, gettime() - p->s->start_time, p->id);
 		update_last_meal_time(p);
 		update_meal_count(p);
-		usleep(p->s->time_to_eat * 1000);
+		my_usleep(p->s->time_to_eat, p->s);
 	}
 }
 
 void	execute_eating_routine(t_philosopher *p)
 {
 	if (!p->s->max_num_meals)
-		usleep(p->s->time_to_die * 1000);
+		my_usleep(p->s->time_to_die, p->s);
 	else
 		execute_2(p, "%ld %d is eating\n", 5);
 }

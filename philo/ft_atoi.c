@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:31:38 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/03/18 02:45:35 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:33:14 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,18 @@ int	ft_atoi(const char *str)
 	s = remove_spaces(s);
 	s = find_sign(s, &sign);
 	if (*s < '0' || *s > '9')
-		exit(1);
+		return (-1);
 	while (*s >= '0' && *s <= '9')
 	{
 		result = (result * 10) + (*s - '0');
 		if ((result > INT_MAX && sign == 1)
 			|| (-result < INT_MIN && sign == -1))
-			exit(1);
+			return (-1);
 		s++;
 	}
 	if (*s != '\0')
-		exit(1);
-	if (sign < 0)
-		exit(1);
+		return (-1);
+	if (sign < 0 || (int)result * sign == 0)
+		return (-1);
 	return ((int)result * sign);
 }

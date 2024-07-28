@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:16:44 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/06/10 15:53:54 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:16:01 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct cycle
 	pthread_mutex_t	display;
 	pthread_mutex_t	must_stop_lock;
 	pthread_mutex_t	meal_lock;
+	// pthread_mutex_t	philo_lock;
 	pthread_mutex_t	last_time_lock;
 }	t_session;
 
@@ -47,14 +48,14 @@ typedef struct philo
 }	t_philosopher;
 
 int		ft_atoi(const char *str);
-void	init(t_session *info, char **argv);
+int		init(t_session *info, char **argv);
 long	gettime(void);
 void	*routines(void *data);
 void	*monitor_routine(void *data);
 void	*monitor_routine(void *data);
 void	*routines(void *data);
-void	create_philo_threads(t_session info);
-void	join_all_threads(t_session info, t_philosopher monitor);
+int		create_philo_threads(t_session info);
+int		join_all_threads(t_session info, t_philosopher monitor);
 int		execute_1(t_philosopher *p, char *m, int mode);
 void	alert_all_to_stop(t_session *s, int i);
 int		check_number_of_meals(t_session *s);
@@ -63,4 +64,6 @@ void	update_last_meal_time(t_philosopher *p);
 void	display_message(char *message, t_session *s, long value, int id);
 void	update_meal_count(t_philosopher *p);
 int		check_if_philo_started_eating(t_session *s, int i);
+void	my_usleep(int duration, t_session *s);
+void	destroy_mutexes(t_session *info);
 #endif
