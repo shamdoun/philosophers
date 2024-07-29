@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 03:08:27 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/07/22 16:59:13 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:45:35 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ int	create_philo_threads(t_session info)
 		info.all_philosophers[i].last_meal_time = gettime();
 		if (pthread_create(&info.all_philosophers[i].thread, NULL,
 				&routines, &info.all_philosophers[i]) == -1)
-		{
-			free(info.all_philosophers);
 			return (1);
-		}
 		i++;
 	}
 	return (0);
@@ -37,17 +34,11 @@ int	join_all_threads(t_session info, t_philosopher monitor)
 
 	i = 0;
 	if (pthread_join(monitor.thread, NULL))
-	{
-		free(info.all_philosophers);
 		return (1);
-	}
 	while (i < info.nbr_philosophers)
 	{
 		if (pthread_join(info.all_philosophers[i].thread, NULL))
-		{
-			free(info.all_philosophers);
 			return (1);
-		}
 		i++;
 	}
 	return (0);

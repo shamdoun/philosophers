@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 02:51:00 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/07/22 16:36:57 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/07/29 23:49:34 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	alert_all_to_stop(t_session *s, int i)
 	printf("%ld %d died\n", gettime() - s->start_time,
 		s->all_philosophers[i].id);
 	pthread_mutex_unlock(&s->display);
-	pthread_mutex_unlock(&s->must_stop_lock);
 }
 
 int	all_ate(size_t sum[], int nbr, size_t max)

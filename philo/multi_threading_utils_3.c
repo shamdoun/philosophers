@@ -6,7 +6,7 @@
 /*   By: shamdoun <shamdoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 21:52:12 by shamdoun          #+#    #+#             */
-/*   Updated: 2024/07/22 17:13:15 by shamdoun         ###   ########.fr       */
+/*   Updated: 2024/07/29 23:37:53 by shamdoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	my_usleep(int duration, t_session *s)
 	long	cur_time;
 
 	cur_time = gettime();
-	while (1)
+	while (gettime() < (cur_time + duration))
 	{
 		pthread_mutex_lock(&s->must_stop_lock);
 		if (s->must_stop)
@@ -26,8 +26,6 @@ void	my_usleep(int duration, t_session *s)
 			return ;
 		}
 		pthread_mutex_unlock(&s->must_stop_lock);
-		if (gettime() < (cur_time + duration))
-			return ;
 		usleep(100);
 	}
 }
